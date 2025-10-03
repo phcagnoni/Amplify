@@ -1,0 +1,3 @@
+# Ferramentas de Qualidade de Código e Teste
+flake8
+pytest
