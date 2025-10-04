@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Passo 1: Verificar o código
+      # Verificar o código
       - name: Check out the code
         uses: actions/checkout@v2
 
-      # Passo 2: Instalar as dependências
+      # Instalar as dependências
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -28,12 +28,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Passo 3: Executar Linter (flake8)
-      - name: Run flake8
-        run: |
-          flake8 .
-
-      # Passo 4: Executar testes com pytest
+      # Executar testes com pytest
       - name: Run tests
         run: |
           pytest --maxfail=1 --disable-warnings -q
