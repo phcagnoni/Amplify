@@ -1,6 +1,3 @@
-# Arquivo: tests/test_grafo.py
-
-# Importa a classe que você quer testar
 from grafoMatriz import TGrafoND
 
 def test_inserir_aresta():
