@@ -1,95 +1,39 @@
-# Nome do workflow
-name: AmpliFy - Python CLI CI/CD
+name: CI/CD Pipeline
 
-# Define os gatilhos que iniciam o workflow
 on:
   push:
-    branches: [ "main" ]
-    tags: [ 'v*' ] # Aciona também em tags que começam com 'v' (ex: v1.0, v1.0.1)
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  #----------------------------------------------------
-  # JOB 1: CONSTRUÇÃO E TESTES (CI)
-  # Este job roda em todo push e pull request para 'main'
-  #----------------------------------------------------
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
-      # 1. Baixa o código do seu repositório para a máquina virtual
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # Passo 1: Verificar o código
+      - name: Check out the code
+        uses: actions/checkout@v2
 
-      # 2. Configura o ambiente Python
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v5
+      # Passo 2: Instalar as dependências
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
-      # 3. Instala dependências (ferramentas de lint e teste)
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
-      # 4. Executa o Linter (Flake8) para verificar a qualidade do código
-      # O '.' no final significa "verifique todos os arquivos .py no diretório atual"
-      - name: Lint with Flake8
+
+      # Passo 3: Executar Linter (flake8)
+      - name: Run flake8
         run: |
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 .
 
-      # 5. Executa os testes unitários com Pytest
-      # O Pytest automaticamente encontrará e rodará os testes na pasta /tests
-      - name: Test with Pytest
-        run: pytest
-
-  #----------------------------------------------------
-  # JOB 2: CRIAR RELEASE (CD)
-  # Este job só roda quando uma tag 'v*' é enviada para o repositório
-  #----------------------------------------------------
-  create-release:
-    # Garante que este job só rode se o 'build-and-test' passar
-    needs: build-and-test
-    # Condição para rodar apenas em tags
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write # Permissão necessária para criar a release e fazer upload de arquivos
-
-    steps:
-      # 1. Baixa o código novamente para este job
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 2. Empacota os arquivos da aplicação em um arquivo .zip
-      - name: Package application files
-        run: zip -r AmpliFy-Release.zip main.py grafoMatriz.py Grafo.txt README.md
-
-      # 3. Cria a Release no GitHub
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Release automática da versão ${{ github.ref }}.
-            Os arquivos da aplicação estão anexados abaixo.
-          draft: false
-          prerelease: false
-
-      # 4. Faz o upload do arquivo .zip como um ativo (asset) da Release
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./AmpliFy-Release.zip
-          asset_name: AmpliFy-Release.zip
-          asset_content_type: application/zip
+      # Passo 4: Executar testes com pytest
+      - name: Run tests
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
