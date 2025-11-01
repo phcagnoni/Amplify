@@ -1,2 +1,6 @@
 # Ferramenta de Teste
 pytest
+
+fastapi
+uvicorn[standard]
+python-multipart
