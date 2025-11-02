@@ -1,9 +1,9 @@
 
   # Sistema de Recomendação Musical
 
-  Esta pasta contém o frontend do nosso Sistema de Recomendação Musical Amplify.
+  This is a code bundle for Sistema de Recomendação Musical. The original project is available at https://www.figma.com/design/mST4iG3xKV8n1DODxp7PKq/Sistema-de-Recomenda%C3%A7%C3%A3o-Musical.
 
-  ## Necessário ter npm e node instalado para rodar.
+  ## Running the code
 
   Run `npm i` to install the dependencies.
 
