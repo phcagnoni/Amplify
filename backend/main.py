@@ -9,19 +9,42 @@ Pedro Henrique Cagnoni Guimaraes - 10417477
 O projeto utiliza matriz de adjacência para representar grafos.
 '''
 
+import os
+from pathlib import Path
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-# --- CONFIGURAÇÃO SPOTIPY ---
-CLIENT_ID = "Inserir_Client_ID"
-CLIENT_SECRET = "Inserir_Client_Secret"
-
+# --- CONFIGURAÇÃO SPOTIPY COM SUPORTE A .env ---
+# Tenta carregar variáveis de ambiente do arquivo .env
 try:
-    auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
-    sp = spotipy.Spotify(auth_manager=auth_manager)
-except Exception as e:
-    print(f"Erro ao autenticar com Spotify: {e}")
+    from dotenv import load_dotenv
+    env_path = Path(__file__).parent / '.env'
+    if env_path.exists():
+        load_dotenv(env_path)
+        print("✓ Arquivo .env carregado com sucesso")
+except ImportError:
+    print("⚠ python-dotenv não instalado. Usando variáveis de ambiente do sistema.")
+
+# Busca credenciais (primeiro .env, depois variáveis de ambiente do sistema)
+CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID", "Inserir_Client_ID")
+CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET", "Inserir_Client_Secret")
+
+# Valida se as credenciais foram configuradas
+if CLIENT_ID == "Inserir_Client_ID" or CLIENT_SECRET == "Inserir_Client_Secret":
+    print("\n⚠ SPOTIFY NÃO CONFIGURADO ⚠")
+    print("Para habilitar a integração com Spotify:")
+    print("1. Copie backend/.env.example para backend/.env")
+    print("2. Edite backend/.env com suas credenciais")
+    print("3. Obtenha credenciais em: https://developer.spotify.com/dashboard\n")
     sp = None
+else:
+    try:
+        auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+        sp = spotipy.Spotify(auth_manager=auth_manager)
+        print("✓ Spotify autenticado com sucesso!")
+    except Exception as e:
+        print(f"✗ Erro ao autenticar com Spotify: {e}")
+        sp = None
 
 from grafoMatriz import TGrafoND
 

@@ -3,7 +3,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { ArrowLeft, Music, Sparkles, Mail, Lock } from "lucide-react";
+import { ArrowLeft, Music, Sparkles, Mail, Lock, Loader2 } from "lucide-react";
+import { authAPI } from "../services/api";
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -14,11 +15,32 @@ export function LoginPage({ onLogin, onBack }: LoginPageProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simular login/cadastro
-    onLogin();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      if (isSignUp) {
+        // Registro
+        await authAPI.register(email, password);
+        // Após registrar, faz login automaticamente
+        await authAPI.login(email, password);
+      } else {
+        // Login
+        await authAPI.login(email, password);
+      }
+      
+      onLogin();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao autenticar");
+      console.error("Erro de autenticação:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -94,8 +116,21 @@ export function LoginPage({ onLogin, onBack }: LoginPageProps) {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
-                {isSignUp ? "Criar Conta" : "Entrar"}
+              {error && (
+                <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md">
+                  {error}
+                </div>
+              )}
+
+              <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {isSignUp ? "Criando conta..." : "Entrando..."}
+                  </>
+                ) : (
+                  isSignUp ? "Criar Conta" : "Entrar"
+                )}
               </Button>
             </form>
 

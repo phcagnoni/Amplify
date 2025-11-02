@@ -1,6 +1,12 @@
 # Ferramenta de Teste
 pytest
 
+# API REST
 fastapi
 uvicorn[standard]
 python-multipart
+pydantic
+
+# Spotify Integration
+spotipy
+python-dotenv

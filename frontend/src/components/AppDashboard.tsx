@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { 
@@ -11,16 +11,18 @@ import {
   LogOut, 
   User, 
   Play, 
-  Heart, 
-  Share2, 
-  MoreHorizontal,
+  Heart,
   GitBranch,
   Activity,
   Zap,
   Globe,
-  MapPin
+  MapPin,
+  Database
 } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import SpotifyIntegration from "./SpotifyIntegration";
+import GrafoDemo from "./GrafoDemo";
+import { DashboardEstatisticas } from "./DashboardEstatisticas";
 
 
 interface AppDashboardProps {
@@ -289,283 +291,330 @@ export function AppDashboard({ onLogout }: AppDashboardProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border">
-        <div className="container mx-auto px-6 py-4">
+      {/* Header Compacto */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Music className="w-8 h-8 text-primary" />
-                <Sparkles className="w-3.5 h-3.5 text-primary/70 absolute -top-0.5 -right-0.5" />
+                <Music className="w-7 h-7 text-primary" />
+                <Sparkles className="w-3 h-3 text-primary/70 absolute -top-0.5 -right-0.5" />
               </div>
-              <span className="text-xl font-semibold">AmpliFy</span>
-              <Badge variant="secondary" className="ml-2">Beta</Badge>
+              <span className="text-lg font-bold">AmpliFy</span>
+              <Badge variant="secondary" className="ml-2 text-xs">Beta</Badge>
             </div>
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <User className="w-4 h-4" />
-                Perfil
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="sm" className="gap-1.5 h-8">
+                <User className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Perfil</span>
               </Button>
-              <Button variant="ghost" size="sm" onClick={onLogout} className="gap-2">
-                <LogOut className="w-4 h-4" />
-                Sair
+              <Button variant="ghost" size="sm" onClick={onLogout} className="gap-1.5 h-8">
+                <LogOut className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Sair</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="discover" className="flex items-center gap-2">
+      {/* Conteúdo Principal */}
+      <div className="container mx-auto px-4 py-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          {/* Abas Horizontais - Uma ao Lado da Outra */}
+          <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground w-full max-w-2xl mx-auto">
+            <TabsTrigger 
+              value="discover" 
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium gap-1.5 flex-1"
+            >
               <Zap className="w-4 h-4" />
-              Descoberta
+              <span className="hidden sm:inline">Descoberta</span>
+              <span className="sm:hidden">Home</span>
             </TabsTrigger>
-            <TabsTrigger value="cultural" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="cultural" 
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium gap-1.5 flex-1"
+            >
               <Globe className="w-4 h-4" />
-              Cultural
+              <span className="hidden sm:inline">Cultural</span>
+              <span className="sm:hidden">🌍</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="spotify" 
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium gap-1.5 flex-1"
+            >
+              <Music className="w-4 h-4" />
+              Spotify
+            </TabsTrigger>
+            <TabsTrigger 
+              value="api" 
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium gap-1.5 flex-1"
+            >
+              <Database className="w-4 h-4" />
+              <span className="hidden sm:inline">API Demo</span>
+              <span className="sm:hidden">Demo</span>
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="discover" className="grid lg:grid-cols-3 gap-8">
-            {/* Painel Principal - Descoberta */}
-            <div className="lg:col-span-2 space-y-6">
-          {/* Busca */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="w-5 h-5" />
-                Buscar Música
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Digite o nome da música ou artista..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+          {/* Aba Descoberta */}
+          <TabsContent value="discover" className="space-y-4 mt-4">
+            {/* Dashboard de Estatísticas */}
+            <DashboardEstatisticas />
+            
+            {/* Grid Principal */}
+            <div className="grid lg:grid-cols-3 gap-4">
+              {/* Painel Esquerdo - Busca e Lista */}
+              <div className="lg:col-span-2 space-y-4">
+                {/* Card de Busca */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Search className="w-4 h-4" />
+                      Buscar Música
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Digite o nome da música ou artista..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 h-9"
+                      />
+                    </div>
               
-              <div className="mt-4 space-y-2 max-h-64 overflow-y-auto">
-                {filteredSongs.map((song) => (
-                  <div
-                    key={song.id}
-                    className={`flex items-center gap-4 p-3 rounded-lg border cursor-pointer transition-all hover:bg-muted/50 ${
-                      selectedSong?.id === song.id ? "bg-primary/10 border-primary" : ""
-                    }`}
-                    onClick={() => setSelectedSong(song)}
-                  >
-                    <ImageWithFallback
-                      src={song.image}
-                      alt={`${song.album} - ${song.artist}`}
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded object-cover"
-                    />
-                    <div className="flex-grow">
-                      <div className="font-medium">{song.title}</div>
-                      <div className="text-sm text-muted-foreground">{song.artist} • {song.album}</div>
+                    <div className="mt-3 space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                      {filteredSongs.map((song) => (
+                        <div
+                          key={song.id}
+                          className={`flex items-center gap-3 p-2.5 rounded-lg border cursor-pointer transition-all hover:bg-muted/50 hover:shadow-sm ${
+                            selectedSong?.id === song.id ? "bg-primary/10 border-primary shadow-sm" : ""
+                          }`}
+                          onClick={() => setSelectedSong(song)}
+                        >
+                          <ImageWithFallback
+                            src={song.image}
+                            alt={`${song.album} - ${song.artist}`}
+                            width={40}
+                            height={40}
+                            className="w-10 h-10 rounded object-cover flex-shrink-0"
+                          />
+                          <div className="flex-grow min-w-0">
+                            <div className="font-medium text-sm truncate">{song.title}</div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {song.artist} • {song.album}
+                            </div>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <div className="text-xs font-medium">{song.year}</div>
+                            <div className="text-[10px] text-muted-foreground">
+                              {song.connections} ×
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium">{song.year}</div>
-                      <div className="text-xs text-muted-foreground">{song.connections} conexões</div>
-                    </div>
-                  </div>
-                ))}
+                  </CardContent>
+                </Card>
+
+                {/* Grafo de Recomendações */}
+                {selectedSong && (
+                  <Card>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <GitBranch className="w-4 h-4" />
+                        Mapa de Conexões
+                      </CardTitle>
+                      <CardDescription className="text-xs line-clamp-1">
+                        Similaridade: "{selectedSong.title}"
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <GraphVisualization />
+                      <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+                        <div>
+                          <div className="text-base font-semibold">{selectedSong.connections}</div>
+                          <div className="text-[10px] text-muted-foreground">Conexões</div>
+                        </div>
+                        <div>
+                          <div className="text-base font-semibold">94%</div>
+                          <div className="text-[10px] text-muted-foreground">Precisão</div>
+                        </div>
+                        <div>
+                          <div className="text-base font-semibold">Rápido</div>
+                          <div className="text-[10px] text-muted-foreground">Análise</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Grafo de Recomendações */}
-          {selectedSong && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <GitBranch className="w-5 h-5" />
-                  Mapa de Conexões Musicais
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Visualização do grafo de similaridade para "{selectedSong.title}"
-                </p>
-              </CardHeader>
-              <CardContent>
-                <GraphVisualization />
-                <div className="mt-4 grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-lg font-semibold">{selectedSong.connections}</div>
-                    <div className="text-xs text-muted-foreground">Conexões Totais</div>
-                  </div>
-                  <div>
-                    <div className="text-lg font-semibold">94%</div>
-                    <div className="text-xs text-muted-foreground">Precisão Média</div>
-                  </div>
-                  <div>
-                    <div className="text-lg font-semibold">Rapido</div>
-                    <div className="text-xs text-muted-foreground">Tempo de Análise</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-            </div>
-
-            {/* Painel Lateral - Descoberta */}
-            <div className="space-y-6">
-          {/* Música Selecionada */}
-          {selectedSong && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Música Selecionada</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="relative">
-                    <ImageWithFallback
-                      src={selectedSong.image}
-                      alt={`${selectedSong.album} - ${selectedSong.artist}`}
-                      width={300}
-                      height={300}
-                      className="w-full aspect-square rounded-lg object-cover"
-                    />
-                    <Button 
-                      size="sm" 
-                      className="absolute bottom-2 right-2 w-10 h-10 rounded-full p-0"
-                    >
-                      <Play className="w-5 h-5" />
-                    </Button>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">{selectedSong.title}</h3>
-                    <p className="text-muted-foreground">{selectedSong.artist}</p>
-                    <p className="text-sm text-muted-foreground">{selectedSong.album} • {selectedSong.year}</p>
-                    <Badge variant="outline">{selectedSong.genre}</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Recomendações */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="w-5 h-5" />
-                Recomendações
-                {selectedSong && <Badge variant="secondary">Baseado em grafos</Badge>}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {recommendations.map((song, index) => (
-                  <div key={song.id} className="flex items-center gap-3 p-2">
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-medium">
-                      {index + 1}
-                    </div>
-                    <ImageWithFallback
-                      src={song.image}
-                      alt={`${song.album} - ${song.artist}`}
-                      width={40}
-                      height={40}
-                      className="w-10 h-10 rounded object-cover"
-                    />
-                    <div className="flex-grow min-w-0">
-                      <div className="font-medium text-sm truncate">{song.title}</div>
-                      <div className="text-xs text-muted-foreground truncate">{song.artist}</div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
-                        <Play className="w-3 h-3" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
-                        <Heart className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              {!selectedSong && (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Activity className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>Selecione uma música para ver recomendações personalizadas</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Estatísticas */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Suas Estatísticas</CardTitle>
-            </CardHeader>
-            <CardContent>
+              {/* Painel Direito - Lateral */}
               <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Músicas Descobertas</span>
-                  <span className="font-medium">0</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Tempo de Uso</span>
+                {/* Música Selecionada */}
+                {selectedSong && (
+                  <Card>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-base">Música Selecionada</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="relative">
+                          <ImageWithFallback
+                            src={selectedSong.image}
+                            alt={`${selectedSong.album} - ${selectedSong.artist}`}
+                            width={300}
+                            height={300}
+                            className="w-full aspect-square rounded-lg object-cover"
+                          />
+                          <Button 
+                            size="sm" 
+                            className="absolute bottom-2 right-2 w-9 h-9 rounded-full p-0 shadow-lg"
+                          >
+                            <Play className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        <div className="space-y-1.5">
+                          <h3 className="font-semibold text-sm line-clamp-2">{selectedSong.title}</h3>
+                          <p className="text-sm text-muted-foreground line-clamp-1">{selectedSong.artist}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-1">
+                            {selectedSong.album} • {selectedSong.year}
+                          </p>
+                          <Badge variant="outline" className="text-xs">{selectedSong.genre}</Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Recomendações */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <Zap className="w-4 h-4" />
+                        Recomendações
+                      </CardTitle>
+                      {selectedSong && (
+                        <Badge variant="secondary" className="text-xs">Grafos</Badge>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    {selectedSong ? (
+                      <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                        {recommendations.map((song, index) => (
+                          <div 
+                            key={song.id} 
+                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors border"
+                          >
+                            <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                              {index + 1}
+                            </div>
+                            <ImageWithFallback
+                              src={song.image}
+                              alt={`${song.album} - ${song.artist}`}
+                              width={32}
+                              height={32}
+                              className="w-8 h-8 rounded object-cover flex-shrink-0"
+                            />
+                            <div className="flex-grow min-w-0">
+                              <div className="font-medium text-xs truncate">{song.title}</div>
+                              <div className="text-[10px] text-muted-foreground truncate">{song.artist}</div>
+                            </div>
+                            <div className="flex items-center gap-0.5 flex-shrink-0">
+                              <Button variant="ghost" size="sm" className="w-7 h-7 p-0">
+                                <Play className="w-3 h-3" />
+                              </Button>
+                              <Button variant="ghost" size="sm" className="w-7 h-7 p-0">
+                                <Heart className="w-3 h-3" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Activity className="w-10 h-10 mx-auto mb-2 opacity-50" />
+                        <p className="text-xs">Selecione uma música</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Estatísticas */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base">Estatísticas</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">Descobertas</span>
+                        <span className="font-semibold text-sm">0</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">Tempo de Uso</span>
                   <span className="font-medium">2 min</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Precisão</span>
-                  <span className="font-medium">--</span>
-                </div>
+                        <span className="text-xs text-muted-foreground">Precisão</span>
+                        <span className="font-semibold text-sm">--</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-            </CardContent>
-          </Card>
             </div>
           </TabsContent>
           
-          <TabsContent value="cultural" className="space-y-6">
-            {/* Seção Cultural */}
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-6">
+          {/* Aba Cultural */}
+          <TabsContent value="cultural" className="space-y-4 mt-4">
+            <div className="grid lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-2 space-y-4">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Globe className="w-5 h-5" />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Globe className="w-4 h-4" />
                       Descoberta Cultural
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      Explore músicas tradicionais e culturais de todo o mundo baseadas nos seus gostos
-                    </p>
+                    <CardDescription className="text-xs">
+                      Explore músicas de todo o mundo
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid md:grid-cols-2 gap-3">
                       {culturalRecommendations.map((song) => (
-                        <div key={song.id} className="border rounded-lg p-4 space-y-3">
-                          <div className="flex items-start gap-3">
+                        <div key={song.id} className="border rounded-lg p-3 space-y-2 hover:bg-muted/30 transition-colors">
+                          <div className="flex items-start gap-2">
                             <ImageWithFallback
                               src={song.image}
                               alt={`${song.genre} - ${song.country}`}
-                              width={80}
-                              height={80}
-                              className="w-20 h-20 rounded-lg object-cover"
+                              width={60}
+                              height={60}
+                              className="w-15 h-15 rounded-lg object-cover flex-shrink-0"
                             />
                             <div className="flex-grow min-w-0">
-                              <h3 className="font-semibold">{song.title}</h3>
-                              <p className="text-sm text-muted-foreground">{song.artist}</p>
-                              <div className="flex items-center gap-2 mt-1">
-                                <MapPin className="w-3 h-3 text-muted-foreground" />
-                                <span className="text-xs text-muted-foreground">{song.country}</span>
-                                <Badge variant="outline" className="text-xs">{song.genre}</Badge>
+                              <h3 className="font-semibold text-sm line-clamp-1">{song.title}</h3>
+                              <p className="text-xs text-muted-foreground line-clamp-1">{song.artist}</p>
+                              <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                                <MapPin className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                                <span className="text-[10px] text-muted-foreground truncate">{song.country}</span>
+                                <Badge variant="outline" className="text-[10px] px-1.5 py-0">{song.genre}</Badge>
                               </div>
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground">{song.description}</p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-primary">{song.cultural_significance}</span>
-                            <div className="flex items-center gap-1">
-                              <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
+                          <p className="text-[10px] text-muted-foreground line-clamp-2">{song.description}</p>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-[10px] font-medium text-primary truncate flex-1">
+                              {song.cultural_significance}
+                            </span>
+                            <div className="flex items-center gap-0.5 flex-shrink-0">
+                              <Button variant="ghost" size="sm" className="w-7 h-7 p-0">
                                 <Play className="w-3 h-3" />
                               </Button>
-                              <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
+                              <Button variant="ghost" size="sm" className="w-7 h-7 p-0">
                                 <Heart className="w-3 h-3" />
                               </Button>
                             </div>
@@ -654,6 +703,35 @@ export function AppDashboard({ onLogout }: AppDashboardProps) {
                 </Card>
               </div>
             </div>
+          </TabsContent>
+
+          {/* Aba Spotify */}
+          <TabsContent value="spotify" className="space-y-4 mt-4">
+            <SpotifyIntegration />
+          </TabsContent>
+
+          {/* Aba API Demo - PRINCIPAL PARA APRESENTAÇÃO */}
+          <TabsContent value="api" className="space-y-4 mt-4">
+            {/* Banner Compacto */}
+            <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-transparent">
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1">
+                    <CardTitle className="text-base flex items-center gap-2 mb-1">
+                      <GitBranch className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span className="line-clamp-1">Sistema de Recomendação por Grafos</span>
+                    </CardTitle>
+                    <CardDescription className="text-xs line-clamp-2">
+                      Demonstração interativa usando algoritmo de Jaccard. 
+                      Clique em "Inicializar Demo" para carregar 14 músicas.
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
+
+            {/* Componente de demonstração */}
+            <GrafoDemo />
           </TabsContent>
         </Tabs>
       </div>
