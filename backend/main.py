@@ -9,8 +9,113 @@ Pedro Henrique Cagnoni Guimaraes - 10417477
 O projeto utiliza matriz de adjacência para representar grafos.
 '''
 
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+# --- CONFIGURAÇÃO SPOTIPY ---
+CLIENT_ID = "Inserir_Client_ID"
+CLIENT_SECRET = "Inserir_Client_Secret"
+
+try:
+    auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+    sp = spotipy.Spotify(auth_manager=auth_manager)
+except Exception as e:
+    print(f"Erro ao autenticar com Spotify: {e}")
+    sp = None
+
 from grafoMatriz import TGrafoND
 
+def importar_artista_spotify(grafo, artista_nome):
+
+    if not sp:
+        print(" API do Spotify não autenticada")
+        return
+    
+    print(f"\n Buscando por '{artista_nome}' no Spotify")
+
+    try:
+        resultados = sp.search(q=f'artist:{artista_nome}', type='artist', limit=1)
+        if not resultados:
+            print(f" Artista '{artista_nome}' não encontrado.")
+            return
+        artista_data = resultados['artists']['items'][0]
+        nome_artista_real = artista_data['name']
+
+        id_artista = grafo.insereV(nome_artista_real, "artista")
+
+        ids_generos = set()
+        for genero_nome in artista_data['genres']:
+            genero = genero_nome.title()
+            id_genero = grafo.insereV(genero_nome, "genero")
+            ids_generos.add(id_genero)
+
+            grafo.insereA(id_artista, id_genero)
+        
+        print(f" Artista '{nome_artista_real}' e {len(ids_generos)} gêneros processados")
+
+        top_tracks = sp.artist_top_tracks(artista_data['id'])
+
+        musicas_importadas = 0
+        for track in top_tracks['tracks']:
+            musica_nome = track['name']
+
+            id_musica = grafo.insereV(musica_nome, "musica")
+
+            grafo.insereA(id_musica, id_artista)
+
+            for id_genero in ids_generos:
+                grafo.insereA(id_musica, id_genero)
+
+            musicas_importadas += 1
+
+        print(f" Importação de '{nome_artista_real}' concluída")
+        print(f" {musicas_importadas} músicas importadas")
+    except Exception as e:
+        print(f" Erro durante a importação do Spotify: {e}")
+
+
+def recomendar_musicas(grafo, nome_musica_base, top_n = 5):
+    # Recomendacao de musicas baseada no teorema de Jaccard
+
+    if nome_musica_base not in grafo.itens_reverso:
+        print(f" Erro: Musica '{nome_musica_base}' não encontrada")
+        return []
+    
+    musica_base_id = grafo.itens_reverso[nome_musica_base]
+
+    if grafo.itens[musica_base_id]["tipo"] != "musica":
+        print(f"Erro '{nome_musica_base}' não é uma música")
+        return []
+    
+    perfil_base = grafo.obter_vizinhos(musica_base_id)
+
+    if not perfil_base:
+        print(f"Música '{nome_musica_base}' não tem conexões")
+        return []
+    
+    scores_similaridade = []
+
+    for musica_id in grafo.vertices_por_tipo["musica"]:
+        if musica_id == musica_base_id:
+            continue
+        perfil_outra = grafo.obter_vizinhos(musica_id)
+        if not perfil_outra:
+            continue
+
+        intersecao = perfil_base.intersection(perfil_outra)
+        uniao = perfil_base.union(perfil_outra)
+
+        if not uniao:
+            jaccard_score = 0.0
+        else:
+            jaccard_score = len(intersecao)/len(uniao)
+        
+        if jaccard_score > 0:
+            nome_outra_musica = grafo.get_nome_item(musica_id)
+            scores_similaridade.append((nome_outra_musica, jaccard_score))
+    
+    scores_similaridade.sort(key=lambda item: item[1], reverse = True)
+    return scores_similaridade[:top_n]
 
 def mostrar_menu():
     """Exibe o menu de opções"""
@@ -19,14 +124,16 @@ def mostrar_menu():
     print("=" * 50)
     print("a) Ler dados do arquivo grafo.txt")
     print("b) Gravar dados no arquivo grafo.txt")
-    print("c) Inserir vértice")
-    print("d) Inserir aresta")
+    print("c) Inserir vértice (Manual)")
+    print("d) Inserir aresta (Manual)")
     print("e) Remover vértice")
     print("f) Remover aresta")
     print("g) Mostrar conteúdo do arquivo")
-    print("h) Mostrar grafo")
+    print("h) Mostrar grafo (Matriz)")
     print("i) Apresentar conexidade do grafo")
-    print("j) Encerrar a aplicação")
+    print("j) Importar Artista do Spotify")
+    print("k) Recomendar Músicas")
+    print("l) Encerrar a aplicação")
     print("=" * 50)
 
 def main():
@@ -40,7 +147,8 @@ def main():
         mostrar_menu()
         
         try:
-            opcao = input("\nEscolha uma opção (a-j): ").strip().lower()
+            # Atualizado para (a-l) com base no seu novo menu
+            opcao = input("\nEscolha uma opção (a-l): ").strip().lower()
             
             if opcao == 'a':
                 # Ler dados do arquivo grafo.txt
@@ -62,16 +170,21 @@ def main():
             elif opcao == 'c':
                 # Inserir vértice
                 try:
-                    nome_vertice = input("Digite uma música/artista/gênero para adicionar um novo vértice: ").strip()
+                    nome_vertice = input("Digite o nome do vértice: ").strip()
+                    tipo_vertice = input("Digite o tipo (musica/artista/genero): ").strip().lower()
+
+                    # Valida o tipo e usa "desconhecido" como padrão
+                    if tipo_vertice not in ["musica", "artista", "genero"]:
+                        print("   Aviso: Tipo inválido, usando 'desconhecido'.")
+                        tipo_vertice = "desconhecido"
+                        
                     if nome_vertice:
-                        novo_vertice = grafo.insereV(nome_vertice)
-                        print(f" Vértice {novo_vertice} '{nome_vertice}' inserido com sucesso!")
+                        grafo.insereV(nome_vertice, tipo_vertice) 
                     else:
                         print(" Nome do vértice não pode estar vazio.")
                 except Exception as e:
                     print(f" Erro ao inserir vértice: {e}")
         
-
             elif opcao == 'd':
                 # Inserir aresta
                 try:
@@ -79,8 +192,8 @@ def main():
                     v2 = int(input("Digite o segundo vértice: "))
                     
                     grafo.insereA(v1, v2)
-                    nome1 = grafo.get_nome_item(v1)
-                    nome2 = grafo.get_nome_item(v2)
+                    nome1 = grafo.get_nome_item(v1) #
+                    nome2 = grafo.get_nome_item(v2) #
                     print(f" Aresta inserida: {v1}({nome1}) <-> {v2}({nome2})")
                     
                 except ValueError:
@@ -96,8 +209,6 @@ def main():
                     vertice = int(input("Digite o vértice a ser removido: "))
                     nome = grafo.get_nome_item(vertice)
                     grafo.removeV(vertice)
-                    print(f" Vértice {vertice} '{nome}' removido com sucesso!")
-                    
                 except ValueError:
                     print(" Erro: Digite um número válido.")
                 except IndexError:
@@ -125,6 +236,7 @@ def main():
                     print(f" Erro ao remover aresta: {e}")
                     
             elif opcao == 'g':
+                # Mostrar conteúdo do arquivo
                 try:
                     print("\n OPÇÕES DE VISUALIZAÇÃO DO ARQUIVO:")
                     print("1. Visão geral do arquivo")
@@ -135,7 +247,7 @@ def main():
                     if sub_opcao == '1':
                         grafo.mostrar_conteudo_arquivo("Grafo.txt")
                     elif sub_opcao == '2':
-                        limite = input("Quantos vértices mostrar? (padrão 66): ").strip()
+                        limite = input("Quantos vértices mostrar? (padrão 20): ").strip()
                         limite = int(limite) if limite.isdigit() else 20
                         grafo.mostrar_conexoes_detalhadas("Grafo.txt", limite)
                     else:
@@ -145,27 +257,52 @@ def main():
                     print(f" Erro ao mostrar conteúdo do arquivo: {e}")
                     
             elif opcao == 'h':
-                # Printa a matriz no formato de paginas, para possibilitar uma melhor visualizacao
+                # Mostrar grafo
                 grafo.show_matriz_paginada()
                     
             elif opcao == 'i':
                 # Apresentar conexidade do grafo
                 print(f"\n ANÁLISE DE CONEXIDADE:")
-               
                 conexidade = grafo.conexidade()
-                
                 if conexidade == 0:
                     print("O grafo é conexo")
                 else:
                     print("O grafo é desconexo")
-                    
+
             elif opcao == 'j':
+                # Importar artista do Spotify
+                # Verifica se a variável 'sp' foi inicializada com sucesso
+                if not sp: 
+                    print(" API do Spotify não foi inicializada.")
+                else:
+                    nome_artista = input("Digite o nome do artista para importar: ").strip()
+                    if nome_artista:
+                        importar_artista_spotify(grafo, nome_artista)
+                    else:
+                        print(" Nome do artista não pode ser vazio.")
+
+            elif opcao == 'k':
+                # Recomendar Músicas
+                nome_musica = input("Digite o nome da música para recomendar: ").strip()
+                if nome_musica:
+                    recomendacoes = recomendar_musicas(grafo, nome_musica, top_n=5)
+                    if recomendacoes:
+                        print(f"\n--- Recomendações para '{nome_musica}' ---")
+                        for i, (musica, similaridade) in enumerate(recomendacoes):
+                            print(f"{i+1}. {musica} (Similaridade: {similaridade*100:.2f}%)")
+                    else:
+                        print(f"Nenhuma recomendação encontrada para '{nome_musica}'.")
+                else:
+                    print(" Nome da música não pode ser vazio.")
+                    
+            elif opcao == 'l':
+                # Encerrar
                 print("\n Encerrando aplicação...")
                 print("Obrigado por usar o AmpliFy!")
                 break
                 
             else:
-                print(" Opção inválida! Escolha uma letra de 'a' a 'j'.")
+                print(" Opção inválida! Escolha uma letra de 'a' a 'l'.")
                 
         except KeyboardInterrupt:
             print("\n\n Aplicação encerrada pelo usuário.")
