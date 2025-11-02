@@ -14,7 +14,7 @@ import math
 # Grafo Não Direcionado
 class TGrafoND:
     
-    TAM_MAX_DEFAULT = 100
+    TAM_MAX_DEFAULT = 0
 
     def __init__(self, n=TAM_MAX_DEFAULT):
         self.n = n  # Número de vértices
@@ -23,6 +23,12 @@ class TGrafoND:
         
         self.itens = {}  # {indice: "nome do item"}
         self.itens_reverso = {}  # {"nome do item": indice}
+        self.vertices_por_tipo = {
+            "musica": set(),
+            "artista": set(),
+            "genero": set(),
+            "desconhecido": set()
+        }
         self.tipo_grafo = 0  # Tipo padrão do grafo
 
     def insereA(self, v, w, peso=1.0):
@@ -34,8 +40,13 @@ class TGrafoND:
             self.adj[w][v] = float(peso)  # Insere aresta nas duas direções
             self.m += 1  # Atualiza qtd arestas
 
-    def insereV(self, nome_vertice):
+    def insereV(self, nome_vertice, tipo_vertice = "desconhecido"):
         """Insere um vértice no grafo"""
+
+        if nome_vertice in self.itens_reverso:
+            print(f" Vértice '{nome_vertice}' já existe no índice.")
+            return self.itens_reverso[nome_vertice]
+        
         novo_vertice = self.n
 
         # Cria nova matriz expandida
@@ -50,20 +61,19 @@ class TGrafoND:
         self.adj = nova_adj     
         self.n += 1
 
-        # Inicializa dicionários se não existirem
-        if not hasattr(self, 'itens'):
-            self.itens = {}  # DICIONÁRIO
-            self.itens_reverso = {}
-
         # Adiciona o novo vértice
-        self.itens[novo_vertice] = nome_vertice
+        self.itens[novo_vertice] = {"nome": nome_vertice, "tipo": tipo_vertice}
         self.itens_reverso[nome_vertice] = novo_vertice
 
-        print(f" Vértice {novo_vertice} '{nome_vertice}' inserido com sucesso!")
+        if tipo_vertice not in self.vertices_por_tipo:
+            self.vertices_por_tipo[tipo_vertice] = set()
+        self.vertices_por_tipo[tipo_vertice].add(novo_vertice)
+
+        print(f" Vértice {novo_vertice} '{nome_vertice}' ({tipo_vertice}) inserido com sucesso!")
         return novo_vertice
         
     def gravar_grafo_arquivo(self, caminho_arquivo="Grafo.txt"):
-        """Grava o grafo completo no arquivo SEM PESO"""
+        """Grava o grafo completo no arquivo sem peso e com tipos"""
         try:
             with open(caminho_arquivo, 'w', encoding='utf-8') as f:
                 # Escreve tipo do grafo
@@ -74,9 +84,11 @@ class TGrafoND:
                 f.write(f"{self.n}\n")
                 
                 # Escreve vértices nomeados
-                for vertice in sorted(self.itens.keys()):
-                    nome = self.itens[vertice]
-                    f.write(f'{vertice} "{nome}"\n')
+                for vertice_id in sorted(self.itens.keys()):
+                    info = self.itens[vertice_id]
+                    nome = info.get("nome", "")
+                    tipo = info.get("tipo", "desconhecido")
+                    f.write(f'{vertice_id} "{nome}" "{tipo}"\n')
                 
                 # Conta e escreve arestas
                 arestas = []
@@ -118,7 +130,12 @@ class TGrafoND:
         if v < 0 or v >= self.n:
             raise IndexError("Vértice inválido.")
 
-        vertice_removido = self.get_nome_item(v)
+        info_removida = self.itens.get(v)
+        if not info_removida:
+            print(" Erro: Informações do vértice não encontradas.")
+            return
+            
+        vertice_removido = info_removida["nome"]
 
         arestas_removidas = sum(1 for i in range(self.n) if self.adj[v][i] > 0)
         self.m -= arestas_removidas
@@ -142,14 +159,22 @@ class TGrafoND:
         novo_itens = {}
         novo_itens_reverso = {}
 
-        for old_id, nome in self.itens.items():
-            new_id = old_id if old_id < v else old_id -1
-            novo_itens[new_id] = nome
+        novo_vertices_por_tipo = {tipo: set() for tipo in self.vertices_por_tipo}
+
+        for old_id, info in self.itens.items():
+            new_id = old_id if old_id < v else old_id - 1
+            
+            nome = info["nome"]
+            tipo = info["tipo"]
+            
+            novo_itens[new_id] = info # info já é {"nome": nome, "tipo": tipo}
             novo_itens_reverso[nome] = new_id
+            novo_vertices_por_tipo[tipo].add(new_id)
 
         self.adj = nova_matriz
         self.itens = novo_itens
         self.itens_reverso = novo_itens_reverso
+        self.vertices_por_tipo = novo_vertices_por_tipo
         self.n -= 1
 
         print(f"Vértice {v} ({vertice_removido}) removido com sucesso.")
@@ -191,13 +216,19 @@ class TGrafoND:
             linha = linhas[linha_atual]
             partes = linha.split('"')
             
-            if len(partes) >= 2:
+            if len(partes) >= 4:
                 numero_parte = partes[0].strip()
                 if numero_parte.isdigit():
                     vertice = int(numero_parte)
                     nome_item = partes[1].strip()
-                    self.itens[vertice] = nome_item
+                    tipo_item = partes[3].strip()
+                    
+                    self.itens[vertice] = {"nome": nome_item, "tipo": tipo_item}
                     self.itens_reverso[nome_item] = vertice
+
+                    if tipo_item not in self.vertices_por_tipo:
+                        self.vertices_por_tipo[tipo_item] = set()
+                    self.vertices_por_tipo[tipo_item].add(vertice)
             
             linha_atual += 1
         
@@ -254,7 +285,8 @@ class TGrafoND:
 
     def get_nome_item(self, vertice):
         #Retorna o nome do item associado ao vértice
-        return self.itens.get(vertice, f"V{vertice}")
+        info = self.itens.get(vertice, {})
+        return info.get("nome", f"V{vertice}")
 
     def show_matriz_paginada(self, cols_por_pagina=20):
         # Exibe a matriz de adjacência em formato de paginas
@@ -567,3 +599,13 @@ class TGrafoND:
         else:
 
             return 1  # Desconexo
+        
+    def obter_vizinhos(self, v):
+        # Retorna um set de IDs dos vizinhos do vértice v
+        if v < 0 or v >= self.n:
+            raise IndexError("Vértice inválido")
+        vizinhos = set()
+        for j in range (self.n):
+            if self.adj[v][j] > 0:
+                vizinhos.add(j)
+        return vizinhos
