@@ -1,0 +1,154 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  --background: #fdfcff;
+  --foreground: #1a1625;
+  --card: #ffffff;
+  --card-foreground: #1a1625;
+  --popover: #ffffff;
+  --popover-foreground: #1a1625;
+  --primary: #6b46c1;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f0ff;
+  --secondary-foreground: #1a1625;
+  --muted: #f8f7ff;
+  --muted-foreground: #6b7280;
+  --accent: #f3f0ff;
+  --accent-foreground: #1a1625;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: rgba(107, 70, 193, 0.15);
+  --input: transparent;
+  --input-background: #faf9ff;
+  --switch-background: #e5e7eb;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #6b46c1;
+  --chart-1: #8b5cf6;
+  --chart-2: #a78bfa;
+  --chart-3: #c4b5fd;
+  --chart-4: #ddd6fe;
+  --chart-5: #ede9fe;
+  --radius: 0.625rem;
+  --sidebar: #fdfcff;
+  --sidebar-foreground: #1a1625;
+  --sidebar-primary: #6b46c1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f0ff;
+  --sidebar-accent-foreground: #1a1625;
+  --sidebar-border: rgba(107, 70, 193, 0.15);
+  --sidebar-ring: #6b46c1;
+}
+
+.dark {
+  --background: #1a1625;
+  --foreground: #fdfcff;
+  --card: #2d2438;
+  --card-foreground: #fdfcff;
+  --popover: #2d2438;
+  --popover-foreground: #fdfcff;
+  --primary: #a78bfa;
+  --primary-foreground: #1a1625;
+  --secondary: #3e2c5a;
+  --secondary-foreground: #fdfcff;
+  --muted: #2d2438;
+  --muted-foreground: #9ca3af;
+  --accent: #3e2c5a;
+  --accent-foreground: #fdfcff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(167, 139, 250, 0.2);
+  --input: #2d2438;
+  --ring: #a78bfa;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #a78bfa;
+  --chart-2: #c4b5fd;
+  --chart-3: #ddd6fe;
+  --chart-4: #8b5cf6;
+  --chart-5: #7c3aed;
+  --sidebar: #1a1625;
+  --sidebar-foreground: #fdfcff;
+  --sidebar-primary: #a78bfa;
+  --sidebar-primary-foreground: #1a1625;
+  --sidebar-accent: #2d2438;
+  --sidebar-accent-foreground: #fdfcff;
+  --sidebar-border: rgba(167, 139, 250, 0.2);
+  --sidebar-ring: #a78bfa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/**
+ * Base typography - simplified for better performance
+ */
+@layer base {
+  h1, h2, h3, h4 {
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  p, input {
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  button, label {
+    font-weight: 500;
+    line-height: 1.5;
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
