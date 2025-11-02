@@ -1,329 +1,686 @@
 0
-66
-0 "Aquarela do Brasil"
-1 "Garota de Ipanema"
-2 "Chega de Saudade"
-3 "Trem das Onze"
-4 "Mas, Que Nada"
-5 "Ai, Se Eu te Pego"
-6 "Anunciação"
-7 "O Leãozinho"
-8 "Shape Of You"
-9 "Blinding Lights"
-10 "Uptown Funk"
-11 "Rolling In The Deep"
-12 "Can't Stop the Feeling!"
-13 "Havana"
-14 "Despacito"
-15 "Bad Guy"
-16 "Old Town Road"
-17 "Perfect"
-18 "Rockabye"
-19 "Wake Me Up"
-20 "Ary Barroso"
-21 "Vinícius de Moraes"
-22 "Tom Jobim"
-23 "Adoniran Barbosa"
-24 "Jorge Ben Jor"
-25 "Michel Teló"
-26 "Gilberto Gil"
-27 "Caetano Veloso"
-28 "Ed Sheeran"
-29 "The Weeknd"
-30 "Bruno Mars"
-31 "Adele"
-32 "Mark Ronson"
-33 "Justin Timberlake"
-34 "Camila Cabello"
-35 "Young Thug"
-36 "Luis Fonsi"
-37 "Daddy Yankee"
-38 "Billie Eilish"
-39 "Lil Nas X"
-40 "Billy Ray Cyrus"
-41 "Clean Bandit"
-42 "Avicii"
-43 "Samba"
-44 "Bossa Nova"
-45 "MPB"
-46 "Sertanejo"
-47 "Axé"
-48 "Pop"
-49 "Funk"
-50 "R&B"
-51 "Soul"
-52 "Hip Hop"
-53 "Reggaeton"
-54 "Electro-Pop"
-55 "Country Rap"
-56 "Rock"
-57 "Eletrônica"
-58 "Country"
-59 "Reggae"
-60 "Trap"
-61 "Clássica"
-62 "Jazz"
-63 "Onde anda você"
-64 "Ivete Sangalo"
-65 "Sorte Grande"
-260
-0 20
-20 0
-0 43
-43 0
-1 22
-22 1
-1 43
-43 1
-1 44
-44 1
-2 22
-22 2
-2 44
-44 2
-3 43
-43 3
-3 23
-23 3
-4 43
-43 4
-4 45
-45 4
+105
+0 "Linkin Park" "artista"
+1 "nu metal" "genero"
+2 "rap metal" "genero"
+3 "rock" "genero"
+4 "alternative metal" "genero"
+5 "In the End" "musica"
+6 "Numb" "musica"
+7 "Somewhere I Belong" "musica"
+8 "What I've Done" "musica"
+9 "The Emptiness Machine" "musica"
+10 "Faint" "musica"
+11 "One Step Closer" "musica"
+12 "Crawling" "musica"
+13 "Bleed It Out" "musica"
+14 "Heavy Is the Crown" "musica"
+15 "Audioslave" "artista"
+16 "grunge" "genero"
+17 "post-grunge" "genero"
+18 "Like a Stone" "musica"
+19 "Show Me How to Live" "musica"
+20 "Be Yourself" "musica"
+21 "I Am the Highway" "musica"
+22 "Cochise" "musica"
+23 "Doesn't Remind Me" "musica"
+24 "Shadow on the Sun" "musica"
+25 "Gasoline" "musica"
+26 "What You Are" "musica"
+27 "Wide Awake" "musica"
+28 "Metallica" "artista"
+29 "metal" "genero"
+30 "thrash metal" "genero"
+31 "heavy metal" "genero"
+32 "hard rock" "genero"
+33 "Enter Sandman - Remastered 2021" "musica"
+34 "Nothing Else Matters - Remastered 2021" "musica"
+35 "Master Of Puppets" "musica"
+36 "One" "musica"
+37 "For Whom The Bell Tolls - Remastered" "musica"
+38 "The Unforgiven - Remastered 2021" "musica"
+39 "Sad But True - Remastered 2021" "musica"
+40 "Fuel" "musica"
+41 "Whiskey In The Jar" "musica"
+42 "Seek & Destroy - Remastered" "musica"
+43 "Michel Teló" "artista"
+44 "sertanejo" "genero"
+45 "sertanejo universitário" "genero"
+46 "sertanejo tradicional" "genero"
+47 "Ai Se Eu Te Pego - Ao Vivo" "musica"
+48 "Estou Apaixonado - Ao Vivo" "musica"
+49 "Metamorfose Ambulante / Anna Júlia - Ao Vivo" "musica"
+50 "Fugidinha - Ao Vivo" "musica"
+51 "Humilde Residência - Ao Vivo" "musica"
+52 "Implorando Pra Trair" "musica"
+53 "Implorando Pra Trair - Ao Vivo" "musica"
+54 "Chalana" "musica"
+55 "Anunciação - Ao Vivo" "musica"
+56 "Pot-Pourri: Chico Mineiro / Tristeza do Jeca / Moreninha Linda - Ao Vivo" "musica"
+57 "Caetano Veloso" "artista"
+58 "mpb" "genero"
+59 "bossa nova" "genero"
+60 "samba" "genero"
+61 "Sozinho - Ao Vivo" "musica"
+62 "Samba De Verão" "musica"
+63 "Sonho Meu" "musica"
+64 "Todo Homem - Ao Vivo" "musica"
+65 "Voce E Linda - Remixed Original Album" "musica"
+66 "Nossa Resenha" "musica"
+67 "Fé - Ao Vivo" "musica"
+68 "Não Enche" "musica"
+69 "Queixa" "musica"
+70 "Aquarela do Brasil" "musica"
+71 "The Weeknd" "artista"
+72 "One Of The Girls (with JENNIE, Lily Rose Depp)" "musica"
+73 "Timeless (feat Playboi Carti)" "musica"
+74 "Blinding Lights" "musica"
+75 "Starboy" "musica"
+76 "Die For You" "musica"
+77 "The Hills" "musica"
+78 "Save Your Tears" "musica"
+79 "Save Your Tears (Remix) (with Ariana Grande) - Bonus Track" "musica"
+80 "Call Out My Name" "musica"
+81 "São Paulo (feat. Anitta)" "musica"
+82 "Avicii" "artista"
+83 "edm" "genero"
+84 "Wake Me Up" "musica"
+85 "The Nights" "musica"
+86 "Waiting For Love" "musica"
+87 "Levels - Radio Edit" "musica"
+88 "Hey Brother" "musica"
+89 "Without You" "musica"
+90 "I Could Be The One (Avicii Vs. Nicky Romero) - Radio Edit" "musica"
+91 "Addicted To You" "musica"
+92 "SOS (feat. Aloe Blacc)" "musica"
+93 "Lonely Together" "musica"
+94 "Justin Timberlake" "artista"
+95 "SexyBack (feat. Timbaland)" "musica"
+96 "Mirrors" "musica"
+97 "Rock Your Body" "musica"
+98 "My Love (feat. T.I.)" "musica"
+99 "Summer Love" "musica"
+100 "What Goes Around.../...Comes Around (Interlude)" "musica"
+101 "CAN'T STOP THE FEELING! (from DreamWorks Animation's "TROLLS")" "musica"
+102 "Cry Me a River" "musica"
+103 "Love Never Felt So Good" "musica"
+104 "Say Something (feat. Chris Stapleton)" "musica"
+578
+0 1
+1 0
+0 2
+2 0
+0 3
+3 0
+0 4
+4 0
+0 5
+5 0
+0 6
+6 0
+0 7
+7 0
+0 8
+8 0
+0 9
+9 0
+0 10
+10 0
+0 11
+11 0
+0 12
+12 0
+0 13
+13 0
+0 14
+14 0
+1 5
+5 1
+1 6
+6 1
+1 7
+7 1
+1 8
+8 1
+1 9
+9 1
+1 10
+10 1
+1 11
+11 1
+1 12
+12 1
+1 13
+13 1
+1 14
+14 1
+2 5
+5 2
+2 6
+6 2
+2 7
+7 2
+2 8
+8 2
+2 9
+9 2
+2 10
+10 2
+2 11
+11 2
+2 12
+12 2
+2 13
+13 2
+2 14
+14 2
+3 5
+5 3
+3 6
+6 3
+3 7
+7 3
+3 8
+8 3
+3 9
+9 3
+3 10
+10 3
+3 11
+11 3
+3 12
+12 3
+3 13
+13 3
+3 14
+14 3
+3 28
+28 3
+3 33
+33 3
+3 34
+34 3
+3 35
+35 3
+3 36
+36 3
+3 37
+37 3
+3 38
+38 3
+3 39
+39 3
+3 40
+40 3
+3 41
+41 3
+3 42
+42 3
+4 5
+5 4
+4 6
+6 4
+4 7
+7 4
+4 8
+8 4
+4 9
+9 4
+4 10
+10 4
+4 11
+11 4
+4 12
+12 4
+4 13
+13 4
+4 14
+14 4
+4 15
+15 4
+4 18
+18 4
+4 19
+19 4
+4 20
+20 4
+4 21
+21 4
+4 22
+22 4
+4 23
+23 4
 4 24
 24 4
-5 25
-25 5
-5 46
-46 5
-6 25
-25 6
-6 46
-46 6
-7 45
-45 7
-7 27
-27 7
-8 28
-28 8
-8 48
-48 8
-9 48
-48 9
-9 54
-54 9
-9 29
-29 9
-10 30
-30 10
-10 49
-49 10
-10 51
-51 10
-11 31
-31 11
-11 50
-50 11
-11 48
-48 11
-12 33
-33 12
-12 48
-48 12
-13 34
-34 13
-13 48
-48 13
-14 48
-48 14
-14 53
-53 14
-14 36
-36 14
-15 38
-38 15
-15 48
-48 15
-15 60
-60 15
-15 54
-54 15
-16 60
-60 16
-16 39
-39 16
-16 58
-58 16
-17 48
-48 17
-17 28
-28 17
-17 50
-50 17
-18 41
-41 18
-18 48
-48 18
-19 42
-42 19
-19 58
-58 19
-19 57
-57 19
-63 21
-21 63
-63 45
-45 63
-65 64
-64 65
-65 45
-45 65
-65 59
-59 65
-65 47
-47 65
-20 43
-43 20
-20 45
-45 20
-21 45
-45 21
-21 43
-43 21
-21 44
-44 21
-22 45
-45 22
-22 43
-43 22
-22 44
-44 22
-22 62
-62 22
-23 43
-43 23
-24 43
-43 24
-24 44
-44 24
-24 45
-45 24
-24 49
-49 24
-24 51
-51 24
-24 52
-52 24
-24 62
-62 24
-25 46
-46 25
-25 45
-45 25
-26 59
-59 26
-26 45
-45 26
-26 52
-52 26
-27 44
-44 27
-27 45
-45 27
-28 48
-48 28
-28 50
-50 28
-28 51
-51 28
-28 52
-52 28
-29 48
-48 29
-29 50
-50 29
-30 48
-48 30
-30 49
-49 30
-30 50
-50 30
-30 51
-51 30
-30 56
-56 30
-30 53
-53 30
-31 48
-48 31
-31 50
-50 31
-31 51
-51 31
-32 49
-49 32 
-32 50
-50 32
-32 51
-51 32
-32 52
-52 32
-32 57
-57 32
-33 48
-48 33
-33 50
-50 33
-34 48
-48 34
-34 50
-50 34
-35 52
-52 35 
-35 60
-60 35
-36 48
-48 36
-36 53
-53 36
-37 48
-48 37
-37 52
-52 37
-37 53
-53 37
-38 48
-48 38
-39 60
-60 39
-39 48
-48 39
-39 50
-50 39
-39 52
-52 39
-39 55
-55 39
-40 55
-55 40
-40 58
-58 40
-41 48
-48 41
-41 57 
-57 41
-41 61
-61 41
-42 57
-57 42
-64 48
-48 64
-64 49
-49 64
-64 47
-47 64
-64 45
-45 64
-64 59
+4 25
+25 4
+4 26
+26 4
+4 27
+27 4
+15 16
+16 15
+15 17
+17 15
+15 18
+18 15
+15 19
+19 15
+15 20
+20 15
+15 21
+21 15
+15 22
+22 15
+15 23
+23 15
+15 24
+24 15
+15 25
+25 15
+15 26
+26 15
+15 27
+27 15
+16 18
+18 16
+16 19
+19 16
+16 20
+20 16
+16 21
+21 16
+16 22
+22 16
+16 23
+23 16
+16 24
+24 16
+16 25
+25 16
+16 26
+26 16
+16 27
+27 16
+17 18
+18 17
+17 19
+19 17
+17 20
+20 17
+17 21
+21 17
+17 22
+22 17
+17 23
+23 17
+17 24
+24 17
+17 25
+25 17
+17 26
+26 17
+17 27
+27 17
+28 29
+29 28
+28 30
+30 28
+28 31
+31 28
+28 32
+32 28
+28 33
+33 28
+28 34
+34 28
+28 35
+35 28
+28 36
+36 28
+28 37
+37 28
+28 38
+38 28
+28 39
+39 28
+28 40
+40 28
+28 41
+41 28
+28 42
+42 28
+29 33
+33 29
+29 34
+34 29
+29 35
+35 29
+29 36
+36 29
+29 37
+37 29
+29 38
+38 29
+29 39
+39 29
+29 40
+40 29
+29 41
+41 29
+29 42
+42 29
+30 33
+33 30
+30 34
+34 30
+30 35
+35 30
+30 36
+36 30
+30 37
+37 30
+30 38
+38 30
+30 39
+39 30
+30 40
+40 30
+30 41
+41 30
+30 42
+42 30
+31 33
+33 31
+31 34
+34 31
+31 35
+35 31
+31 36
+36 31
+31 37
+37 31
+31 38
+38 31
+31 39
+39 31
+31 40
+40 31
+31 41
+41 31
+31 42
+42 31
+32 33
+33 32
+32 34
+34 32
+32 35
+35 32
+32 36
+36 32
+32 37
+37 32
+32 38
+38 32
+32 39
+39 32
+32 40
+40 32
+32 41
+41 32
+32 42
+42 32
+43 44
+44 43
+43 45
+45 43
+43 46
+46 43
+43 47
+47 43
+43 48
+48 43
+43 49
+49 43
+43 50
+50 43
+43 51
+51 43
+43 52
+52 43
+43 53
+53 43
+43 54
+54 43
+43 55
+55 43
+43 56
+56 43
+44 47
+47 44
+44 48
+48 44
+44 49
+49 44
+44 50
+50 44
+44 51
+51 44
+44 52
+52 44
+44 53
+53 44
+44 54
+54 44
+44 55
+55 44
+44 56
+56 44
+45 47
+47 45
+45 48
+48 45
+45 49
+49 45
+45 50
+50 45
+45 51
+51 45
+45 52
+52 45
+45 53
+53 45
+45 54
+54 45
+45 55
+55 45
+45 56
+56 45
+46 47
+47 46
+46 48
+48 46
+46 49
+49 46
+46 50
+50 46
+46 51
+51 46
+46 52
+52 46
+46 53
+53 46
+46 54
+54 46
+46 55
+55 46
+46 56
+56 46
+57 58
+58 57
+57 59
+59 57
+57 60
+60 57
+57 61
+61 57
+57 62
+62 57
+57 63
+63 57
+57 64
+64 57
+57 65
+65 57
+57 66
+66 57
+57 67
+67 57
+57 68
+68 57
+57 69
+69 57
+57 70
+70 57
+58 61
+61 58
+58 62
+62 58
+58 63
+63 58
+58 64
+64 58
+58 65
+65 58
+58 66
+66 58
+58 67
+67 58
+58 68
+68 58
+58 69
+69 58
+58 70
+70 58
+59 61
+61 59
+59 62
+62 59
+59 63
+63 59
 59 64
-64 43
-43 64
+64 59
+59 65
+65 59
+59 66
+66 59
+59 67
+67 59
+59 68
+68 59
+59 69
+69 59
+59 70
+70 59
+60 61
+61 60
+60 62
+62 60
+60 63
+63 60
+60 64
+64 60
+60 65
+65 60
+60 66
+66 60
+60 67
+67 60
+60 68
+68 60
+60 69
+69 60
+60 70
+70 60
+71 72
+72 71
+71 73
+73 71
+71 74
+74 71
+71 75
+75 71
+71 76
+76 71
+71 77
+77 71
+71 78
+78 71
+71 79
+79 71
+71 80
+80 71
+71 81
+81 71
+82 83
+83 82
+82 84
+84 82
+82 85
+85 82
+82 86
+86 82
+82 87
+87 82
+82 88
+88 82
+82 89
+89 82
+82 90
+90 82
+82 91
+91 82
+82 92
+92 82
+82 93
+93 82
+83 84
+84 83
+83 85
+85 83
+83 86
+86 83
+83 87
+87 83
+83 88
+88 83
+83 89
+89 83
+83 90
+90 83
+83 91
+91 83
+83 92
+92 83
+83 93
+93 83
+94 95
+95 94
+94 96
+96 94
+94 97
+97 94
+94 98
+98 94
+94 99
+99 94
+94 100
+100 94
+94 101
+101 94
+94 102
+102 94
+94 103
+103 94
+94 104
+104 94
