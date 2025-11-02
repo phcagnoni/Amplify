@@ -422,20 +422,11 @@ npm run dev
 
 ## 👥 Equipe
 
-**Desenvolvido para PAED 2 - UFMS**
+**Desenvolvido para LAB ENG DE SOFTWARE - MACKENZIE**
 
 - Bernardo de Souza Pereira - 10312871
 - Matheus Queiroz Gregorin - 10418143
 - Pedro Henrique Cagnoni Guimaraes - 10417477
-
-**Data:** Novembro 2025  
-**Versão:** 1.0.0
-
----
-
-## 📄 Licença
-
-Este projeto foi desenvolvido para fins educacionais na **Universidade Federal de Mato Grosso do Sul (UFMS)**.
 
 ---
 
@@ -452,4 +443,4 @@ O Amplify é mais que um sistema de recomendação - é uma ferramenta educativa
 
 ---
 
-**Desenvolvido com ❤️ usando Grafos e Ciência de Dados**
+**Desenvolvido usando Grafos e Ciência de Dados**
