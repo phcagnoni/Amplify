@@ -591,7 +591,7 @@ async def recomendar_por_musica(musica_nome: str, limite: int = 5):
                 "nome": info["nome"],
                 "artistas": artistas,
                 "generos": generos,
-                "score_similaridade": round(score * 100, 1)  # Converte para percentual
+                "score_similaridade": round(score, 1)  # Converte para percentual
             })
         
         return {
