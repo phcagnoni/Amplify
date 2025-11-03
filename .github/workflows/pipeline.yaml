@@ -31,5 +31,6 @@ jobs:
       # Executar testes com pytest
       - name: Run tests
         run: |
+          cd backend
           export PYTHONPATH=$PYTHONPATH:.
           pytest --maxfail=1 --disable-warnings -q
