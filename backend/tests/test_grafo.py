@@ -26,7 +26,11 @@ def test_remover_vertice_simples():
     """
     # 1. Preparação
     grafo = TGrafoND(n=3)
-    grafo.itens = {0: "MusicaA", 1: "MusicaB", 2: "MusicaC"}
+    grafo.itens = {
+            0: {"nome": "MusicaA", "tipo": "musica"},
+            1: {"nome": "MusicaB", "tipo": "musica"},
+            2: {"nome": "MusicaC", "tipo": "musica"}
+        }
     grafo.itens_reverso = {"MusicaA": 0, "MusicaB": 1, "MusicaC": 2}
     grafo.insereA(0, 1)
     grafo.insereA(1, 2)
