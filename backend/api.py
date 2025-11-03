@@ -607,9 +607,9 @@ async def recomendar_por_musica(musica_nome: str, limite: int = 5):
 # ==================== INICIALIZAÇÃO ====================
 
 if __name__ == "__main__":
-    print("🚀 Iniciando Amplify API...")
-    print("📍 API disponível em: http://localhost:8000")
-    print("📖 Documentação em: http://localhost:8000/docs")
+    print(" Iniciando Amplify API...")
+    print(" API disponível em: http://localhost:8000")
+    print(" Documentação em: http://localhost:8000/docs")
     
     uvicorn.run(
         "api:app",
